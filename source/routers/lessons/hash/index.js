@@ -1,6 +1,6 @@
 import dg from 'debug';
 
-const debug = dg('router:users:hash');
+const debug = dg('router:lessons:hash');
 
 export const getByHash = (req, res) => {
     debug(`${req.method} - ${req.originalUrl}`);
