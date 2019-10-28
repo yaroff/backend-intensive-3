@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 // Instruments
-import { logger, errorLogger, NotFoundError } from './utils';
+import { logger, errorLogger, NotFoundError, notFoundLogger, validationLogger } from './utils';
 
 //Routers
 import * as routers from './routers';
@@ -45,7 +45,19 @@ if (process.env.NODE_ENV !== 'test') {
         const { name, message, statusCode } = error;
         const errorMessage = `${name}: ${message}`;
 
-        errorLogger.error(errorMessage);
+        switch (error.name) {
+            case 'NotFoundError':
+                notFoundLogger.error(errorMessage);
+                break;
+
+            case 'ValidationError':
+                validationLogger.error(errorMessage);
+                break;
+
+            default:
+                errorLogger.error(errorMessage);
+                break;
+        }
 
         const status = statusCode ? statusCode : 500;
         res.status(status).json({ message: message });

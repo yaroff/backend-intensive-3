@@ -20,6 +20,6 @@ export const createUser = {
             enum: [ 'f', 'm' ],
         },
     },
-    required:             [ 'name', 'email' ],
+    required:             [ 'name', 'email', 'phone', 'password', 'sex' ],
     additionalProperties: false,
 };
