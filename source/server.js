@@ -1,6 +1,7 @@
 // Core
 import express from 'express';
-import session from 'express-session';
+import passport from 'passport';
+import { Strategy as JwtStrategy } from 'passport-jwt';
 
 // Instruments
 import {
@@ -9,7 +10,7 @@ import {
     NotFoundError,
     notFoundLogger,
     validationLogger,
-    sessionOptions,
+    jwtOptions,
 } from './utils';
 
 // Routers
@@ -17,7 +18,14 @@ import { auth, users, classes, lessons } from './routers';
 
 const app = express();
 
-app.use(session(sessionOptions));
+passport.use(
+    new JwtStrategy(jwtOptions, (jwtPayload, done) => {
+        const { email } = jwtPayload;
+
+        return done(null, { email });
+    }),
+);
+
 app.use(express.json({ limit: '10kb' }));
 
 // Logger
