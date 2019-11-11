@@ -1,1 +1,0 @@
-export { jwtOptions } from './passport';
