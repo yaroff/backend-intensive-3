@@ -1,16 +1,24 @@
 // Core
 import express from 'express';
-import bodyParser from 'body-parser';
+import session from 'express-session';
 
 // Instruments
-import { logger, errorLogger, NotFoundError, notFoundLogger, validationLogger } from './utils';
+import {
+    logger,
+    errorLogger,
+    NotFoundError,
+    notFoundLogger,
+    validationLogger,
+    sessionOptions,
+} from './utils';
 
-//Routers
-import * as routers from './routers';
+// Routers
+import { auth, users, classes, lessons } from './routers';
 
 const app = express();
 
-app.use(bodyParser.json({ limit: '10kb' }));
+app.use(session(sessionOptions));
+app.use(express.json({ limit: '10kb' }));
 
 // Logger
 if (process.env.NODE_ENV === 'development') {
@@ -27,10 +35,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Routers
-app.use('/auth', routers.auth);
-app.use('/users', routers.users);
-app.use('/classes', routers.classes);
-app.use('/lessons', routers.lessons);
+app.use('/', auth);
+app.use('/users', users);
+app.use('/classes', classes);
+app.use('/lessons', lessons);
 
 app.use('*', (req, res, next) => {
     const error = new NotFoundError(
