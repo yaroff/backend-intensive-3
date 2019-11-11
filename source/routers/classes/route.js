@@ -18,7 +18,7 @@ export const post = (req, res) => {
     debug(`${req.method} - ${req.originalUrl}`);
 
     try {
-        const data = {};
+        const data = { hash: 'hello' };
 
         res.status(201).json({ data });
     } catch (error) {
