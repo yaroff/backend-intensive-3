@@ -1,4 +1,4 @@
-export { getPort } from './env';
+export { getPort, getDB, getPassword } from './env';
 export { limiter } from './limiter';
 export { validator } from './validator';
 export { authenticate } from './authenticate';

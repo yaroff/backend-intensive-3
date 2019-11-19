@@ -9,9 +9,19 @@
 3. Имя базы данных выбираем следующее → первая буква имени и фамилия латиницей, в нижнем регистре
 
 ```
-DEBUG='server:*,router:*'
+# Debug
+DEBUG='server:*,router:*,db'
+
+# Server
 PORT=3000
-DB=your_db
+
+# Session
+PASSWORD='Very_strong_pa$$word_is%123456789'
+
+# DB
+DB_URL='lab.lectrum.io'
+DB_PORT='37019'
+DB_NAME='your_db_name'
 ```
 
 #### Документация по проекту
