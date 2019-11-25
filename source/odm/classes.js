@@ -6,15 +6,15 @@ import v4 from 'uuid/v4';
 import { users, lessons } from './';
 
 const schema = new mongoose.Schema({
-    title:       String,
-    description: String,
-    hash:        {
+    hash: {
         type:     String,
         required: true,
         unique:   true,
         default:  () => v4(),
     },
-    students: [
+    title:       String,
+    description: String,
+    students:    [
         {
             user: {
                 type: mongoose.SchemaTypes.ObjectId,
@@ -55,4 +55,9 @@ const schema = new mongoose.Schema({
     modified: Date,
 });
 
+schema.index({ title: 'text', description: 'text' });
+schema.index({ order: 1 }, { name: 'order' });
+
 export const classes = mongoose.model('classes', schema);
+
+classes.createIndexes();
