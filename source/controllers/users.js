@@ -1,15 +1,21 @@
-import { Users as UsersModel } from '../models';
+// Instruments
+import { Users as UserModel } from '../models';
 
 export class Users {
-    // data ← req.body
     constructor(data) {
         this.models = {
-            users: new UsersModel(data),
+            users: new UserModel(data),
         };
     }
 
     async create() {
         const data = await this.models.users.create();
+
+        return data;
+    }
+
+    async getAll () {
+        const data = await this.models.users.getAll();
 
         return data;
     }
