@@ -2,7 +2,7 @@
 import bcrypt from 'bcryptjs';
 
 // Instruments
-import { users } from '../odm';
+import { students } from '../odm';
 import { validatePaginationObj, NotFoundError } from '../utils';
 
 export class Users {
@@ -12,7 +12,7 @@ export class Users {
 
     async create() {
         const user = await this._transformCreateUser(this.data);
-        const data = await users.create(user);
+        const data = await students.create(user);
 
         return data;
     }
@@ -24,10 +24,10 @@ export class Users {
             page: oPage,
             size: oSize,
         });
-        const total = await users.countDocuments();
+        const total = await students.countDocuments();
         const offset = (page - 1) * size;
 
-        const data = await users
+        const data = await students
             .find({})
             .sort('-created')
             .skip(offset)
@@ -48,7 +48,7 @@ export class Users {
     async getByHash() {
         const { hash } = this.data;
 
-        const data = await users
+        const data = await students
             .findOne({ hash })
             .select('-__v -id')
             .lean();
@@ -63,7 +63,7 @@ export class Users {
     async updateByHash() {
         const { hash, payload } = this.data;
 
-        const data = await users.findOneAndUpdate({ hash }, payload);
+        const data = await students.findOneAndUpdate({ hash }, payload);
 
         if (!data) {
             throw new NotFoundError(`can not find document with hash ${hash}`);
@@ -75,7 +75,7 @@ export class Users {
     async removeByHash() {
         const { hash } = this.data;
 
-        const data = await users.findOneAndDelete({ hash });
+        const data = await students.findOneAndDelete({ hash });
 
         if (!data) {
             throw new NotFoundError(`can not find document with hash ${hash}`);
