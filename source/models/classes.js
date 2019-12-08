@@ -28,6 +28,8 @@ export class Classes {
             .sort('-created')
             .skip(offset)
             .limit(size)
+            .populate('lessons.lesson', '-_id -__v')
+            .populate('students.user', '-_id -__v')
             .select('-__v -id')
             .lean();
 
@@ -46,6 +48,8 @@ export class Classes {
 
         const data = await classes
             .findOne({ hash })
+            .populate('lessons.lesson', '-_id -__v')
+            .populate('students.user', '-_id -__v')
             .select('-__v -id')
             .lean();
 
