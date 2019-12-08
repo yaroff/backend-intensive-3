@@ -2,6 +2,20 @@
 import mongoose from 'mongoose';
 import v4 from 'uuid/v4';
 
+const contentSchema = new mongoose.Schema(
+    {
+        title: String,
+        order: Number,
+        uri:   String,
+        hash:  {
+            type:    String,
+            unique:  true,
+            default: () => v4(),
+        },
+    },
+    { _id: false },
+);
+
 const schema = new mongoose.Schema(
     {
         hash: {
@@ -29,20 +43,8 @@ const schema = new mongoose.Schema(
             },
         ],
         content: {
-            videos: [
-                {
-                    title: String,
-                    order: Number,
-                    uri:   String,
-                },
-            ],
-            keynotes: [
-                {
-                    title: String,
-                    order: Number,
-                    uri:   String,
-                },
-            ],
+            videos:   [ contentSchema ],
+            keynotes: [ contentSchema ],
         },
     },
     { timestamp: { createdAt: 'created', updatedAt: 'modified' } },

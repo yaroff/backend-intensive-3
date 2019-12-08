@@ -5,6 +5,22 @@ import v4 from 'uuid/v4';
 // Instruments
 import { users, lessons } from './';
 
+const studentSchema = new mongoose.Schema(
+    {
+        user: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref:  users,
+        },
+        status: {
+            type: String,
+            enum: [ 'standard', 'select', 'premium' ],
+        },
+        expelled: Boolean,
+        notes:    String,
+    },
+    { _id: false },
+);
+
 const schema = new mongoose.Schema(
     {
         hash: {
@@ -15,21 +31,8 @@ const schema = new mongoose.Schema(
         },
         title:       String,
         description: String,
-        students:    [
-            {
-                user: {
-                    type: mongoose.SchemaTypes.ObjectId,
-                    ref:  users,
-                },
-                status: {
-                    type: String,
-                    enum: [ 'standard', 'select', 'premium' ],
-                },
-                expelled: Boolean,
-                notes:    String,
-            },
-        ],
-        lessons: [
+        students:    [ studentSchema ],
+        lessons:     [
             {
                 lesson: {
                     type: mongoose.SchemaTypes.ObjectId,

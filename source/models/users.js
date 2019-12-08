@@ -14,7 +14,7 @@ export class Users {
         const user = await this._transformCreateUser(this.data);
         const data = await users.create(user);
 
-        return { hash: data.hash };
+        return data;
     }
 
     async getAll() {
